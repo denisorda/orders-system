@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 
 class FormGroupInput extends Component {
-
+    static defaultProps = {
+        onChange: () => {},
+    }
     render() {
         let {label, error, type, onChange, value, disabled = false} = this.props;
         let addClass = error ? 'has-error' : '';

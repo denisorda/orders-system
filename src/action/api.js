@@ -12,6 +12,7 @@ export function save(order) {
         orders.push(order);
     }
     localStorage.setItem(firmName, JSON.stringify(orders));
+    console.log(orders);
 }
 
 export function getVendors() {
@@ -30,15 +31,16 @@ export function getOrders() {
     let firmName = getFirmName();
     let orders = localStorage.getItem(`${firmName}`);
     if (!orders || orders === undefined || orders === null) {
-        return {};
+        return [];
     }
-    return JSON.parse(orders);
+    return JSON.parse(orders).reverse();
 }
 
 export function getOrder(id) {
     let firmName = getFirmName();
     let orders = JSON.parse(localStorage.getItem(`${firmName}`));
-    return orders[id]['order'];
+    let index = orders.map((order) => order.id).indexOf(id);
+    return orders[index];
 }
 
 export function getFirms() {
@@ -75,7 +77,7 @@ export function cleanFirmName() {
 }
 
 export function checkFirm() {
-    if (localStorage.getItem('firm') === '') {
+    if (!localStorage.getItem('firm')) {
         browserHistory.push({
             pathname: `/login`,
         })

@@ -15,7 +15,14 @@ class NewOrder extends Component {
                 startDate: moment(),
                 doDate: moment().add(5, 'days'),
                 orderType: 0,
-                isEdit: false
+                isEdit: false,
+                vendor: '0',
+                name: '',
+                surname: '',
+                email: '',
+                phone: '',
+                id: '',
+                orderText: '',
             },
             errors: {},
             vendors: getVendors(),
@@ -63,10 +70,9 @@ class NewOrder extends Component {
     buildId() {
         let {startDate, orderType} = this.state.data;
         let {orders} = this.state;
-        let idsArr = Object.keys(orders);
         let number = 1;
-        for (let i = 0; i < idsArr.length; i++) {
-            if (idsArr[i].substr(2, 4) === startDate.format('YY') + startDate.format('MM')) {
+        for (let i = 0; i < orders.length; i++) {
+            if (orders[i].id.substr(2, 4) === startDate.format('YY') + startDate.format('MM')) {
                 number++;
             }
         }

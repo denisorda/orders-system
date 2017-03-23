@@ -40,7 +40,7 @@ class Orders extends Component {
     isPager(){
         this.ordersFilter();
         let orders = this.state.ordersFilter;
-        let cnt = Object.keys(orders).length;
+        let cnt = orders.length;
         let onPage = this.state.onPage;
         if (cnt > onPage) {
             this.state.isPager = true;
@@ -56,14 +56,12 @@ class Orders extends Component {
 
     getPage() {
         let orders = this.state.ordersFilter;
-        this.state.ordersPager = {};
+        this.state.ordersPager = [];
         let {onPage, current} = this.state;
-        let i = 0;
-        for (let key in orders) {
+        for (let i = 0; i < orders.length; i++) {
             if (i >= current * onPage && i < (current + 1) * onPage) {
-                this.state.ordersPager[key] = orders[key];
+                this.state.ordersPager.push(orders[i]);
             }
-            i++;
         }
         this.setState(this.state);
     }
@@ -82,47 +80,40 @@ class Orders extends Component {
     ordersFilter() {
         let {orderType, vendor, status} = this.state;
         let orders = this.state.ordersBase;
-        this.state.ordersFilter = {};
-        for (let key in orders) {
+        this.state.ordersFilter = [];
+        for (let i = 0; i < orders.length; i++) {
             let typeFlag = false, vendorFlag = false, statusFlag = false;
-            let order = orders[key].order;
-            if (orderType === '0' || order.orderType === orderType) {
+            if (orderType === '0' || orders[i].orderType === orderType) {
                 typeFlag = true;
             }
-            if (vendor === '0' || order.vendor === vendor) {
+            if (vendor === '0' || orders[i].vendor === vendor) {
                 vendorFlag = true;
             }
             if (status === '0') {
                 statusFlag = true;
-            } else if (moment().format("YYYY-MM-DD") <= moment(order.doDate).format("YYYY-MM-DD") && status === '1') {
+            } else if (moment().format("YYYY-MM-DD") <= moment(orders[i].doDate).format("YYYY-MM-DD") && status === '1') {
                 statusFlag = true;
-            } else if (moment().format("YYYY-MM-DD") > moment(order.doDate).format("YYYY-MM-DD") && status === '2') {
+            } else if (moment().format("YYYY-MM-DD") > moment(orders[i].doDate).format("YYYY-MM-DD") && status === '2') {
                 statusFlag = true;
             }
             if (typeFlag && vendorFlag && statusFlag) {
-                console.log(order);
-                this.state.ordersFilter[order.id] = {order};
+                this.state.ordersFilter.push(orders[i]);
             }
         }
     }
 
     ordersSortToDate(date, direction) {
         let orders = this.state.ordersPager;
-        let arr = [];
-        for (let key in orders) {
-            arr.push({id: key, [date]: orders[key].order[date]});
-        }
-        this.state.ordersPager = {};
-        function compareDate(dateA, dateB) {
+        this.state.ordersPager = [];
+        orders.sort((dateA, dateB) => {
             if (direction === 'up') {
                 return moment(dateA[date]).diff(moment(dateB[date]), 'seconds');
             } else if (direction === 'down') {
                 return moment(dateB[date]).diff(moment(dateA[date]), 'seconds');
             }
-        }
-        arr.sort(compareDate);
-        for (let i = 0; i < arr.length; i++) {
-            this.state.ordersPager[arr[i].id] = orders[arr[i].id];
+        });
+        for (let i = 0; i < orders.length; i++) {
+            this.state.ordersPager.push(orders[i]);
         }
         this.setState(this.state);
     }

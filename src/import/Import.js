@@ -8,7 +8,8 @@ class Import extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            orders: null
+            orders: null,
+            error: null
         }
     }
 
@@ -16,18 +17,28 @@ class Import extends Component {
         checkFirm();
     }
 
-    selectFile (e) {
-        let file= e.target.files[0];
+    selectFile(e) {
+        let file = e.target.files[0];
         let reader = new FileReader();
         reader.readAsText(file);
         reader.onloadend = () => {
-            this.setState({
-                orders: JSON.parse(reader.result)
-            });
+            try {
+                this.state.error = '';
+                this.setState({
+                    orders: JSON.parse(reader.result)
+                });
+            } catch (e) {
+                this.setState({
+                    error: 'Неверный формат файла!'
+                });
+                //console.log(e.message);
+            }
         }
+
+
     }
 
-    updateBase(){
+    updateBase() {
         saveBase(this.state.orders);
         browserHistory.push({
             pathname: `/dashboard`,
@@ -35,9 +46,9 @@ class Import extends Component {
     }
 
     render() {
-        let {orders} = this.state;
+        let {orders, error} = this.state;
         let ordersRender = null;
-        if (orders){
+        if (orders) {
             ordersRender = <div>
                 <h3>Внимание! При нажатии на эту кнопку произойдет замена базы заказов фирмы.</h3>
                 <button className="btn btn-save" onClick={this.updateBase.bind(this)}>Обновить базу</button>
@@ -57,8 +68,8 @@ class Import extends Component {
                             </button>
                         </div>
                     </div>
-
                 </div>
+                <div className="alert-error">{error}</div>
                 {ordersRender}
             </div>
         );

@@ -29,8 +29,8 @@ export default class Table extends Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {Object.keys(orders).length > 0
-                        ? Object.keys(orders).map((key, index) => <TableRow key={index} order={orders[key].order} editable={editable}/>)
+                    {orders.length > 0
+                        ? orders.map((key, index) => <TableRow key={index} order={orders[index]} editable={editable}/>)
                         : <tr key={1} className="text-center">
                             <td colSpan={8}>
                                 <div className="no-data">Список заказов пуст</div>
