@@ -15,7 +15,6 @@ class NewOrder extends Component {
                 startDate: moment(),
                 doDate: moment().add(5, 'days'),
                 orderType: 0,
-                isEdit: false,
                 vendor: '0',
                 name: '',
                 surname: '',
@@ -26,7 +25,8 @@ class NewOrder extends Component {
             },
             errors: {},
             vendors: getVendors(),
-            orders: getOrders()
+            orders: getOrders(),
+            isEdit: false,
         };
     }
 
@@ -54,7 +54,7 @@ class NewOrder extends Component {
             this.buildId();
         }
         this.forceUpdate();
-        console.log(key, ev.target.value);
+        //console.log(key, ev.target.value);
         deleteError(key);
     };
 
@@ -64,7 +64,7 @@ class NewOrder extends Component {
             this.buildId();
         }
         this.forceUpdate();
-        console.log(key, date);
+        //console.log(key, date);
     };
 
     buildId() {

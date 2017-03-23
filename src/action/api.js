@@ -3,7 +3,12 @@ import moment from 'moment'
 
 export function save(order) {
     let firmName = getFirmName();
-    let orders = getOrders(firmName);
+    let orders = localStorage.getItem(firmName);
+    if (!orders || orders === undefined || orders === null) {
+        orders = [];
+    } else {
+        orders = JSON.parse(orders);
+    }
     if (order.createdAt) {
         let index = orders.map((order) => order.id).indexOf(order.id);
         orders[index] = order;
@@ -40,6 +45,7 @@ export function getOrder(id) {
     let firmName = getFirmName();
     let orders = JSON.parse(localStorage.getItem(`${firmName}`));
     let index = orders.map((order) => order.id).indexOf(id);
+    //console.log(orders[index]);
     return orders[index];
 }
 
@@ -64,8 +70,7 @@ export function getPassword(firm) {
 }
 
 export function getFirmName() {
-    let firmName = localStorage.getItem('firm');
-    return firmName;
+    return localStorage.getItem('firm');
 }
 
 export function setFirmName(firmName) {
