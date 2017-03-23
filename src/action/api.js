@@ -17,7 +17,7 @@ export function save(order) {
         orders.push(order);
     }
     localStorage.setItem(firmName, JSON.stringify(orders));
-    console.log(orders);
+    //console.log(orders);
 }
 
 export function getVendors() {
