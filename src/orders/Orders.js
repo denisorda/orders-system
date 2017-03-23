@@ -100,6 +100,7 @@ class Orders extends Component {
                 statusFlag = true;
             }
             if (typeFlag && vendorFlag && statusFlag) {
+                console.log(order);
                 this.state.ordersFilter[order.id] = {order};
             }
         }

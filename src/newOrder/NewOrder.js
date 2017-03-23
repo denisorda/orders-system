@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import moment from 'moment'
-import FormGroupSelect from '../components/FormGroupSelect'
-import FormGroupInput from '../components/FormGroupInput'
-import FormGroupTextarea from '../components/FormGroupTextarea'
 import Back from '../components/Back'
-import DatePickerMy from "../components/DatePickerMy";
 import {save, getVendors, getOrder, getOrders, checkFirm} from "../action/api";
 import {validate, getErrors, deleteError} from "../action/validator";
+import ClientForm from "./ClientForm";
+import OrderForm from "./OrderForm";
+import VendorForm from "./VendorForm";
 
 class NewOrder extends Component {
     constructor(props) {
@@ -67,7 +66,7 @@ class NewOrder extends Component {
         let idsArr = Object.keys(orders);
         let number = 1;
         for (let i = 0; i < idsArr.length; i++) {
-            if (idsArr[i].substr(2, 4) == startDate.format('YY') + startDate.format('MM')) {
+            if (idsArr[i].substr(2, 4) === startDate.format('YY') + startDate.format('MM')) {
                 number++;
             }
         }
@@ -113,75 +112,14 @@ class NewOrder extends Component {
                 <Back to={to}/>
                 <div className="form">
                     <h2>Новый заказ</h2>
-                    <div className="form-item-container">
-                    <h3><i className="fa fa-user-o" aria-hidden="true"> </i> Клиент</h3>
-                    <FormGroupInput label="Имя"
-                                    name="name"
-                                    value={data.name}
-                                    error={errors.name}
-                                    onChange={this.onChange.bind(this, 'name')}/>
-                    <FormGroupInput label="Фамилия"
-                                    name="surname"
-                                    value={data.surname}
-                                    error={errors.surname}
-                                    onChange={this.onChange.bind(this, 'surname')}/>
-                    <FormGroupInput label="Email"
-                                    type="email"
-                                    value={data.email}
-                                    name="email"
-                                    error={errors.email}
-                                    onChange={this.onChange.bind(this, 'email')}/>
-                    <FormGroupInput label="Телефон"
-                                    type="phone"
-                                    value={data.phone}
-                                    name="phone"
-                                    error={errors.phone}
-                                    onChange={this.onChange.bind(this, 'phone')}/>
-                    </div>
-                    <div className="form-item-container">
-                    <h3><i className="fa fa-cart-arrow-down" aria-hidden="true"> </i> Заказ</h3>
-                    <DatePickerMy label="Дата получения заказа"
-                                  className="form-control"
-                                  disabled={isEdit}
-                                  selected={data.startDate}
-                                  onChange={this.onChangeDate.bind(this, 'startDate')}/>
-                    <FormGroupTextarea label="Заказ"
-                                       name="productName"
-                                       value={data.orderText}
-                                       error={errors.orderText}
-                                       onChange={this.onChange.bind(this, 'orderText')}/>
-                    <FormGroupSelect label="Тип заказа"
-                                     onChange={this.onChange.bind(this, 'orderType')}
-                                     name="orderType"
-                                     disabled={isEdit}
-                                     optionValue="key"
-                                     error={errors.orderType}
-                                     value={data.orderType}
-                                     object={{
-                                         'о': 'Опт',
-                                         'р': 'Розница',
-                                     }}/>
-                    <FormGroupInput label="ID заказа"
-                                    name="id"
-                                    disabled="true"
-                                    value={data.id}/>
-                    </div>
-                    <div className="form-item-container">
-                    <h3><i className="fa fa-truck" aria-hidden="true"> </i> Поставщик</h3>
-                    <FormGroupSelect label="Поставщик"
-                                     onChange={this.onChange.bind(this, 'vendor')}
-                                     name="vendor"
-                                     value={data.vendor}
-                                     optionValue="value"
-                                     error={errors.vendor}
-                                     object={vendors}/>
-                    <DatePickerMy label="Дата выполнения заказа"
-                                  className="form-control"
-                                  selected={data.doDate}
-                                  onChange={this.onChangeDate.bind(this, 'doDate')}/>
-                    </div>
+                    <ClientForm data={data} errors={errors} onChange={this.onChange.bind(this)}/>
+                    <OrderForm data={data} errors={errors} onChange={this.onChange.bind(this)}
+                               onChangeDate={this.onChangeDate.bind(this)} isEdit={isEdit}/>
+                    <VendorForm data={data} errors={errors} onChange={this.onChange.bind(this)}
+                                onChangeDate={this.onChangeDate.bind(this)} vendors={vendors}/>
                     <div className="text-center">
-                        <button className="btn btn-save" type="button" onClick={this.saveOrder.bind(this)}>Сохранить
+                        <button className="btn btn-save" type="button" onClick={this.saveOrder.bind(this)}>
+                            Сохранить
                         </button>
                     </div>
                 </div>
