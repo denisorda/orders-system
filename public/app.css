@@ -1,0 +1,270 @@
+.h100 {
+    height: 100%;
+}
+
+header {
+    background-color: #337ab7;
+    height: 70px;
+    padding: 10px;
+    color: white;
+}
+
+.main {
+
+}
+
+.dashboard-title{
+
+}
+
+.btn-dashboard-container{
+    padding-top: 20px;
+}
+
+.container{
+    background-color: #fff;
+    padding-bottom: 50px;
+}
+
+.dashboard-text {
+    text-align: justify;
+    margin-top: 10px;
+}
+
+.btn-dashboard {
+    width: 200px;
+    height: 60px;
+    font-size: 20px;
+    margin: 10px;
+    background-color: #fff;
+    border: 1px solid #337ab7;
+    color: #337ab7;
+    padding-top: 14px;
+}
+
+.btn-dashboard:hover {
+    background-color: #337ab7;
+    color: #fff;
+}
+
+.dashboard {
+
+}
+
+label {
+    color: #337ab7;
+    font-size: 18px;
+    padding: 4px 0 0 18px;
+}
+
+.btn-save {
+    width: 200px;
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #337ab7;
+    height: 50px;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.btn-save:hover {
+    color: #337ab7;
+    background-color: #fff;
+}
+
+.alert-error {
+    height: 22px;
+    font-size: 15px;
+    color: red;
+}
+
+.no-data{
+    background-color: #ffdbb9;
+    margin: 6px;
+    height: 40px;
+    padding-top: 9px;
+    border-radius: 3px;
+}
+
+.panel-heading{
+    margin-bottom: 15px;
+}
+
+.react-datepicker__input-container{
+    width: 100%;
+}
+
+/*th{*/
+    /*text-align: center;*/
+/*}*/
+
+.table{
+    margin-bottom: 0;
+}
+
+.table-warning{
+    background-color: rgba(217, 83, 79, 0.8);
+}
+
+.table-info{
+    background-color: #d9edf7;
+}
+
+.table-primary{
+    background-color: #337ab7;
+}
+
+tbody tr:hover{
+    opacity: 0.7;
+}
+
+.table-container{
+    border: 1px solid #337ab7;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.btn-back{
+    margin-top: 10px;
+}
+
+.btn-edit{
+    width: 100%;
+    border: 1px solid #337ab7;
+    background-color: aliceblue;
+}
+
+.btn-edit:hover{
+    color: #fff;
+    background-color: #337ab7;
+}
+
+.caret-sort{
+    padding: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.login{
+    background-color: #d9edf7;
+    width: 500px;
+    padding: 22px;
+    border-radius: 7px;
+    box-shadow: 0 0 5px 3px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -200px;
+}
+
+.logout{
+    padding: 9px 17px 0 0;
+}
+
+.firm-name{
+    padding: 9px 0 0 17px;
+}
+
+.logout a, .firm-name{
+    color: #000;
+}
+
+.form{
+    width: 720px;
+    margin: 0 auto;
+}
+
+.form-item-container{
+    border: 1px solid #337ab7;
+    border-radius: 10px;
+    padding: 0 5px;
+    margin: 5px 0;
+}
+
+.form h3{
+    text-align: right;
+    margin-top: 10px;
+    border-bottom: 1px solid #337ab7;
+    padding-bottom: 8px;
+    color: #a44d0f;
+}
+
+.fileinput-button {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    white-space: inherit;
+}
+
+.fileinput-button input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    z-index: 1;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    font-size: 200px;
+    direction: ltr;
+    cursor: pointer;
+}
+
+footer{
+    border-top: 1px solid #dedede;
+    background: #EFEFEF;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    height: 45px;
+    padding: 9px 0;
+    z-index: 1000;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    label {
+        padding: 6px 0;
+    }
+
+    .btn-save {
+        width: 100%;
+    }
+
+    .login {
+        width: 90%;
+        position: static;
+        margin: 30px auto;
+    }
+
+    footer{
+        height: 88px;
+    }
+
+    .form{
+        width: 100%;
+    }
+
+    .container{
+        padding-bottom: 90px;
+    }
+
+    .btn-dashboard-container{
+        text-align: center;
+    }
+
+    .form-item-container{
+        border: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .btn-dashboard-container{
+        padding-top: 0;
+    }
+
+
+}
+
