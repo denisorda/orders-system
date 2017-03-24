@@ -32,7 +32,7 @@ export default class OrderForm extends Component {
                              }}/>
             <FormGroupInput label="ID заказа"
                             name="id"
-                            disabled = {true}
+                            disabled={true}
                             value={data.id}/>
         </div>)
     }

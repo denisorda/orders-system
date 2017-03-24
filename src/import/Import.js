@@ -23,8 +23,8 @@ class Import extends Component {
         reader.readAsText(file);
         reader.onloadend = () => {
             try {
-                this.state.error = '';
                 this.setState({
+                    error: '',
                     orders: JSON.parse(reader.result)
                 });
             } catch (e) {

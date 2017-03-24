@@ -5,12 +5,12 @@ class Back extends Component {
 
     render() {
         let {to = null} = this.props;
-        let link = <a href="javascript:void(0)" onClick={this.goBack}>
+        let link = <button type="button" onClick={this.goBack} className="btn btn-link btn-lg">
             <i className="fa fa-fw fa-angle-left"> </i>
             Назад
-        </a>;
+        </button>;
         if (to === '/') {
-            link = <Link to="/dashboard">
+            link = <Link to="/dashboard" className="btn btn-link btn-lg">
                 <i className="fa fa-fw fa-angle-left"> </i>
                 Назад
             </Link>

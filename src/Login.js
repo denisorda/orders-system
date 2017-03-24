@@ -17,9 +17,10 @@ class Login extends Component {
     }
 
     onChange(key, ev) {
-        this.state[key] = ev.target.value;
-        this.forceUpdate();
-        console.log(key, ev.target.value);
+        this.setState({
+            [key]: ev.target.value
+        });
+        //console.log(key, ev.target.value);
         deleteError(key);
     };
 
@@ -27,14 +28,16 @@ class Login extends Component {
         validateSelect(this.state.firm, 'firm');
         let passwordVerify = getPassword(this.state.firm);
         validatePassword(this.state.password, 'password', passwordVerify);
-        this.state.errors = getErrors();
-        this.setState(this.state);
-        if (Object.keys(getErrors()).length === 0) {
+        let errors = getErrors()
+        if (Object.keys(errors).length === 0) {
             setFirmName(this.state.firm);
             browserHistory.push({
                 pathname: `/dashboard`,
             })
+        } else {
+            this.setState({errors});
         }
+
     }
 
     render() {

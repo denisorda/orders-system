@@ -5,7 +5,7 @@ import moment from 'moment'
 export default class TableRow extends Component {
     isConfirm() {
         const {order} = this.props;
-        return moment().format("YYYY-MM-DD") < moment(order.doDate).format("YYYY-MM-DD");
+        return moment().format("YYYY-MM-DD") <= moment(order.doDate).format("YYYY-MM-DD");
     }
 
     isEditable() {

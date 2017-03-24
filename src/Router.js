@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, Router, Redirect, IndexRoute, browserHistory} from 'react-router'
+import {Route, Router, Redirect, browserHistory} from 'react-router'
 import App from './App';
 import Login from './Login';
 import Dashboard from './Dashboard';

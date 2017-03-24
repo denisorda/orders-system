@@ -37,50 +37,43 @@ class Orders extends Component {
         this.isPager();
     }
 
-    isPager(){
-        this.ordersFilter();
-        let orders = this.state.ordersFilter;
-        let cnt = orders.length;
-        let onPage = this.state.onPage;
+    isPager(current = 0) {
+        let {total, onPage} = this.state;
+        let ordersFilter = this.ordersFilter();
+        let cnt = ordersFilter.length;
         if (cnt > onPage) {
-            this.state.isPager = true;
-            this.state.total = Math.ceil(cnt / onPage);
-            this.state.cnt = cnt;
-            this.getPage();
+            total = Math.ceil(cnt / onPage);
+            this.setState({isPager: true, total, cnt, current, ordersPager: this.getPage(ordersFilter, current)});
         } else {
-            this.state.isPager = false;
-            this.state.ordersPager = orders;
-            this.state.current = 0;
+            this.setState({isPager: false, ordersPager: ordersFilter, current});
         }
     }
 
-    getPage() {
-        let orders = this.state.ordersFilter;
-        this.state.ordersPager = [];
-        let {onPage, current} = this.state;
-        for (let i = 0; i < orders.length; i++) {
+    getPage(ordersFilter, current) {
+        let {onPage} = this.state;
+        let ordersPager = [];
+        for (let i = 0; i < ordersFilter.length; i++) {
             if (i >= current * onPage && i < (current + 1) * onPage) {
-                this.state.ordersPager.push(orders[i]);
+                ordersPager.push(ordersFilter[i]);
             }
         }
-        this.setState(this.state);
+        return ordersPager;
     }
 
     handlePageChanged(newPage) {
-        this.state.current = newPage;
-        this.isPager();
+        this.isPager(newPage);
     }
 
     onChange(key, ev) {
-        this.state[key] = ev.target.value;
-        this.forceUpdate();
-        this.isPager();
+        this.setState({[key]: ev.target.value}, () => {
+            this.isPager();
+        });
     };
 
     ordersFilter() {
         let {orderType, vendor, status} = this.state;
         let orders = this.state.ordersBase;
-        this.state.ordersFilter = [];
+        let ordersFilter = [];
         for (let i = 0; i < orders.length; i++) {
             let typeFlag = false, vendorFlag = false, statusFlag = false;
             if (orderType === '0' || orders[i].orderType === orderType) {
@@ -97,31 +90,27 @@ class Orders extends Component {
                 statusFlag = true;
             }
             if (typeFlag && vendorFlag && statusFlag) {
-                this.state.ordersFilter.push(orders[i]);
+                ordersFilter.push(orders[i]);
             }
         }
+        return ordersFilter;
     }
 
     ordersSortToDate(date, direction) {
-        let orders = this.state.ordersPager;
-        this.state.ordersPager = [];
-        orders.sort((dateA, dateB) => {
+        let {ordersPager} = this.state;
+        ordersPager.sort((dateA, dateB) => {
             if (direction === 'up') {
                 return moment(dateA[date]).diff(moment(dateB[date]), 'seconds');
-            } else if (direction === 'down') {
+            } else {
                 return moment(dateB[date]).diff(moment(dateA[date]), 'seconds');
             }
         });
-        for (let i = 0; i < orders.length; i++) {
-            this.state.ordersPager.push(orders[i]);
-        }
-        this.setState(this.state);
+        this.setState({ordersPager});
     }
 
     render() {
         let {editable, ordersPager, ordersFilter, vendors, total, current, visiblePage, isPager = false} = this.state;
         let orders = ordersPager || ordersFilter;
-
         return (
             <div>
                 {editable && <Back to="/"/>}
@@ -134,7 +123,7 @@ class Orders extends Component {
                         visiblePages={visiblePage}
                         titles={{first: '|<', last: '>|'}}
                         className="pagination-sm"
-                        onPageChanged={this.handlePageChanged}
+                        onPageChanged={this.handlePageChanged.bind(this)}
                     />
                 </div> : <div></div>}
                 <Table orders={orders} editable={editable} onSort={this.ordersSortToDate.bind(this)}/>

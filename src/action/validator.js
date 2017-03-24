@@ -40,7 +40,8 @@ function validateEmail(email, key){
     if (!email){
         setError(key, 'Это значение не может быть пустым');
     } else {
-        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        // eslint-disable-next-line
+        let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;  /* eslint-disable */
         if (!re.test(email)){
             setError(key, 'Это не похоже на Email');
         }
@@ -51,7 +52,7 @@ function validatePhone(phone, key){
     if (!phone){
         setError(key, 'Это значение не может быть пустым');
     } else {
-        let re = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/;
+        let re = /^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/; /* eslint-disable */
         if (!re.test(phone)){
             setError(key, 'Это не похоже на номер телефона');
         }
@@ -59,15 +60,15 @@ function validatePhone(phone, key){
 }
 
 export function validateSelect(value, key){
-    if (!value || value == "0"){
+    if (!value){
         setError(key, 'Выберите значение из списка');
     }
 }
 
 export function validatePassword(password, key, pass){
-    if (!password || password == "0"){
+    if (!password){
         setError(key, 'Введите пароль');
-    } else if(password != pass){
+    } else if(password !== pass){
         setError(key, 'Неверный пароль');
     }
 }

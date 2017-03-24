@@ -48,7 +48,7 @@ class App extends Component {
                             All rights reserved
                         </div>
                         <div className="col-sm-4 col-xs-12">
-                            Design by <a href="javascript:void(0)">Den</a>
+                            Design by Den
                         </div>
                     </div>
                 </footer>

@@ -32,38 +32,45 @@ class NewOrder extends Component {
 
     componentDidMount() {
         checkFirm();
+        let {isEdit, data} = this.state;
         let {id = null} = this.props.params;
         let order = {};
         if (id) {
             order = getOrder(id);
             for (let key in order) {
                 if (key === 'startDate' || key === 'doDate') {
-                    this.state.data[key] = moment(order[key]);
+                    data[key] = moment(order[key]);
                 } else {
-                    this.state.data[key] = order[key];
+                    data[key] = order[key];
                 }
             }
-            this.state.isEdit = true;
-            this.setState(this.state);
+            isEdit = true;
+            this.setState({isEdit, data});
+        } else {
+            data.id = this.buildId();
+            this.setState({isEdit, data});
         }
+
     }
 
     onChange(key, ev) {
-        this.state.data[key] = ev.target.value;
-        if (!this.state.isEdit) {
-            this.buildId();
+        let {data, isEdit} = this.state
+        data[key] = ev.target.value;
+        if (!isEdit) {
+            data.id = this.buildId();
         }
-        this.forceUpdate();
+        this.setState({data});
         //console.log(key, ev.target.value);
         deleteError(key);
     };
 
     onChangeDate(key, date) {
-        this.state.data[key] = date;
-        if (!this.state.isEdit) {
-            this.buildId();
+        let {data, isEdit} = this.state
+        data[key] = date;
+        if (!isEdit) {
+            data.id = this.buildId();
         }
-        this.forceUpdate();
+        this.setState({data});
         //console.log(key, date);
     };
 
@@ -76,34 +83,36 @@ class NewOrder extends Component {
                 number++;
             }
         }
-        let id = orderType + '-' + startDate.format('YY') + startDate.format('MM') + startDate.format('DD') + number;
-        this.state.data.id = id;
+        return orderType + '-' + startDate.format('YY') + startDate.format('MM') + startDate.format('DD') + number;
     }
 
     saveOrder() {
-        validate(this.state.data);
-        this.state.errors = getErrors();
-        this.setState(this.state);
-        if (Object.keys(getErrors()).length === 0) {
-            save(this.state.data);
-            this.state.orders = getOrders();
-            this.setState({
-                data: {
-                    orderType: 0,
-                    vendor: '0',
-                    name: '',
-                    surname: '',
-                    email: '',
-                    phone: '',
-                    id: '',
-                    orderText: '',
-                    startDate: moment(),
-                    doDate: moment().add(5, 'days'),
-                }
-            });
-            if (this.state.isEdit) {
-                history.back();
+        let {data, errors, isEdit} = this.state;
+        validate(data);
+        errors = getErrors();
+        if (Object.keys(errors).length === 0) {
+            save(data);
+            data = {
+                orderType: 0,
+                vendor: '0',
+                name: '',
+                surname: '',
+                email: '',
+                phone: '',
+                id: '',
+                orderText: '',
+                startDate: moment(),
+                doDate: moment().add(5, 'days'),
             }
+
+            if (isEdit) {
+                this.setState({data, errors});
+                history.back();
+            } else {
+                this.setState({data, errors, orders: getOrders()});
+            }
+        } else {
+            this.setState({data, errors});
         }
     };
 
@@ -117,7 +126,7 @@ class NewOrder extends Component {
             <div>
                 <Back to={to}/>
                 <div className="form">
-                    <h2>Новый заказ</h2>
+                    <h2>{isEdit ? `Редактирование заказа ${data.id}` : 'Новый заказ'}</h2>
                     <ClientForm data={data} errors={errors} onChange={this.onChange.bind(this)}/>
                     <OrderForm data={data} errors={errors} onChange={this.onChange.bind(this)}
                                onChangeDate={this.onChangeDate.bind(this)} isEdit={isEdit}/>
